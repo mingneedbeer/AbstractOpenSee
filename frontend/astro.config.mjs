@@ -10,10 +10,5 @@ export default defineConfig({
     ssr: {
       noExternal: ['wagmi', 'viem', '@tanstack/react-query'],
     },
-    server: {
-      proxy: {
-        '/api': 'http://localhost:3001',
-      },
-    },
   },
 })
