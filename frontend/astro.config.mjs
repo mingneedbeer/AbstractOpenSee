@@ -1,0 +1,19 @@
+import { defineConfig } from 'astro/config'
+import react from '@astrojs/react'
+import vercel from '@astrojs/vercel'
+
+export default defineConfig({
+  integrations: [react()],
+  output: 'server',
+  adapter: vercel(),
+  vite: {
+    ssr: {
+      noExternal: ['wagmi', 'viem', '@tanstack/react-query'],
+    },
+    server: {
+      proxy: {
+        '/api': 'http://localhost:3001',
+      },
+    },
+  },
+})

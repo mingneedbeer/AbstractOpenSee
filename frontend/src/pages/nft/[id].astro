@@ -1,0 +1,44 @@
+---
+import MainLayout from "../../layouts/MainLayout.astro";
+import { NFTDetail } from "../../components/NFTDetail";
+import { api } from "../../lib/api";
+import type { NFT } from "../../lib/types";
+
+const { id } = Astro.params;
+let nft: NFT | null = null;
+let error = false;
+
+if (id) {
+  try {
+    nft = await api.getNFT(decodeURIComponent(id));
+  } catch {
+    error = true;
+  }
+}
+---
+
+<MainLayout>
+  {error && (
+    <div class="error-state">
+      <h2>NFT not found</h2>
+      <p>The NFT you're looking for doesn't exist or has been removed.</p>
+      <a href="/explore" class="btn btn-primary">Browse NFTs</a>
+    </div>
+  )}
+  {nft && <NFTDetail nft={nft} client:load />}
+</MainLayout>
+
+<style>
+  .error-state {
+    text-align: center;
+    padding: 80px 24px;
+  }
+  .error-state h2 {
+    font-size: 24px;
+    margin-bottom: 8px;
+  }
+  .error-state p {
+    color: var(--color-text-secondary);
+    margin-bottom: 24px;
+  }
+</style>

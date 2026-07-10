@@ -1,0 +1,24 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import { ListingForm } from "../components/ListingForm";
+---
+
+<MainLayout>
+  <section class="section">
+    <div style="text-align: center; margin-bottom: 48px">
+      <h1 class="section-title">List an NFT</h1>
+      <p class="page-subtitle">
+        Connect your wallet and list your NFT for sale on the marketplace
+      </p>
+    </div>
+    <ListingForm client:load />
+  </section>
+</MainLayout>
+
+<style>
+  .page-subtitle {
+    font-size: 16px;
+    color: var(--color-text-secondary);
+    margin-top: -16px;
+  }
+</style>

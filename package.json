@@ -1,0 +1,16 @@
+{
+  "name": "abstract-opensee",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently -n api,web -c blue,green \"bun run dev:backend\" \"bun run dev:frontend\"",
+    "dev:frontend": "bun --cwd frontend dev",
+    "dev:backend": "bun --cwd backend dev",
+    "build": "bun --cwd frontend build",
+    "test:e2e": "bun --cwd e2e test",
+    "test": "bun test:e2e"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}

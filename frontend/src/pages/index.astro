@@ -1,0 +1,187 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import { NFTGrid } from "../components/NFTGrid";
+---
+
+<MainLayout>
+  <section class="hero">
+    <div class="hero-content">
+      <span class="hero-badge">◆ Abstract Testnet</span>
+      <h1 class="hero-title">
+        Discover, collect, and sell NFTs
+      </h1>
+      <p class="hero-subtitle">
+        OpenSee is the premier NFT marketplace on Abstract Chain.
+        Explore digital art from creators on the frontier of blockchain.
+      </p>
+      <div class="hero-actions">
+        <a href="/explore" class="btn btn-primary hero-btn">Explore</a>
+        <a href="/create" class="btn btn-secondary hero-btn">Create</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-grid">
+        <div class="hero-card hero-card-1">◆</div>
+        <div class="hero-card hero-card-2">◇</div>
+        <div class="hero-card hero-card-3">◆</div>
+        <div class="hero-card hero-card-4">◇</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">Latest NFTs</h2>
+    <NFTGrid client:load emptyMessage="No NFTs listed yet. Be the first!" />
+  </section>
+
+  <section class="section features">
+    <h2 class="section-title">Built on Abstract Chain</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">◆</div>
+        <h3>Low Fees</h3>
+        <p>zkSync-powered rollups ensure minimal transaction costs</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">◇</div>
+        <h3>Fast Settlement</h3>
+        <p>Near-instant transactions on Abstract Testnet</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">◆</div>
+        <h3>Self-Custody</h3>
+        <p>You control your assets with your wallet</p>
+      </div>
+    </div>
+  </section>
+</MainLayout>
+
+<style>
+  .hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+    padding: 80px 0 64px;
+    min-height: 60vh;
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    background: rgba(108, 92, 231, 0.15);
+    color: var(--color-primary);
+    margin-bottom: 20px;
+  }
+  .hero-title {
+    font-size: 56px;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 20px;
+    letter-spacing: -1px;
+  }
+  .hero-subtitle {
+    font-size: 18px;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    margin-bottom: 32px;
+    max-width: 480px;
+  }
+  .hero-actions {
+    display: flex;
+    gap: 12px;
+  }
+  .hero-btn {
+    padding: 14px 32px;
+    font-size: 16px;
+  }
+  .hero-visual {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    width: 320px;
+    transform: rotate(12deg) scale(0.9);
+  }
+  .hero-card {
+    aspect-ratio: 1;
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    border: 1px solid var(--color-border);
+    font-weight: 600;
+  }
+  .hero-card-1 {
+    background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+    transform: translateY(-16px);
+  }
+  .hero-card-2 {
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    color: var(--color-primary);
+  }
+  .hero-card-3 {
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    color: var(--color-primary);
+    transform: translateY(16px);
+  }
+  .hero-card-4 {
+    background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+  }
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .feature-card {
+    padding: 32px;
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    transition: all 0.3s;
+  }
+  .feature-card:hover {
+    border-color: var(--color-primary);
+    transform: translateY(-2px);
+  }
+  .feature-icon {
+    font-size: 24px;
+    color: var(--color-primary);
+    margin-bottom: 16px;
+  }
+  .feature-card h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .feature-card p {
+    font-size: 14px;
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+  }
+  @media (max-width: 768px) {
+    .hero {
+      grid-template-columns: 1fr;
+      padding: 40px 0;
+      min-height: auto;
+    }
+    .hero-title {
+      font-size: 36px;
+    }
+    .hero-visual {
+      display: none;
+    }
+    .features-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

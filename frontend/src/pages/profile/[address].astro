@@ -1,0 +1,9 @@
+---
+import MainLayout from "../../layouts/MainLayout.astro";
+import { ProfileView } from "../../components/ProfileView";
+const { address } = Astro.params;
+---
+
+<MainLayout>
+  {address && <ProfileView address={address} client:load />}
+</MainLayout>

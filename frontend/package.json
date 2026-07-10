@@ -1,0 +1,25 @@
+{
+  "name": "abstract-opensee-web",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "astro": "^5.1.0",
+    "@astrojs/react": "^4.1.0",
+    "@astrojs/vercel": "^8.0.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "wagmi": "^2.14.0",
+    "viem": "^2.23.0",
+    "@tanstack/react-query": "^5.62.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.0",
+    "@types/react-dom": "^18.3.0",
+    "typescript": "^5.7.0"
+  }
+}
