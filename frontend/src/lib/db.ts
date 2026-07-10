@@ -1,12 +1,24 @@
-import { sql as pgSql } from "@vercel/postgres";
+import { createClient } from "@libsql/client";
 
+let client: ReturnType<typeof createClient>;
 let initialized = false;
+
+export function getDb() {
+  if (!client) {
+    client = createClient({
+      url: import.meta.env.TURSO_DATABASE_URL || "file:local.db",
+      authToken: import.meta.env.TURSO_AUTH_TOKEN,
+    });
+  }
+  return client;
+}
 
 export async function ensureDb() {
   if (initialized) return;
   initialized = true;
+  const db = getDb();
   try {
-    await pgSql`
+    await db.execute(`
       CREATE TABLE IF NOT EXISTS nfts (
         id TEXT PRIMARY KEY,
         token_id INTEGER NOT NULL,
@@ -17,11 +29,11 @@ export async function ensureDb() {
         owner TEXT NOT NULL,
         collection_address TEXT,
         metadata_uri TEXT,
-        created_at BIGINT NOT NULL DEFAULT (EXTRACT(EPOCH FROM NOW())::bigint),
-        updated_at BIGINT NOT NULL DEFAULT (EXTRACT(EPOCH FROM NOW())::bigint)
+        created_at INTEGER NOT NULL DEFAULT (unixepoch()),
+        updated_at INTEGER NOT NULL DEFAULT (unixepoch())
       )
-    `;
-    await pgSql`
+    `);
+    await db.execute(`
       CREATE TABLE IF NOT EXISTS users (
         address TEXT PRIMARY KEY,
         username TEXT,
@@ -29,11 +41,11 @@ export async function ensureDb() {
         avatar TEXT,
         twitter TEXT,
         website TEXT,
-        created_at BIGINT NOT NULL DEFAULT (EXTRACT(EPOCH FROM NOW())::bigint),
-        updated_at BIGINT NOT NULL DEFAULT (EXTRACT(EPOCH FROM NOW())::bigint)
+        created_at INTEGER NOT NULL DEFAULT (unixepoch()),
+        updated_at INTEGER NOT NULL DEFAULT (unixepoch())
       )
-    `;
-    await pgSql`
+    `);
+    await db.execute(`
       CREATE TABLE IF NOT EXISTS collections (
         address TEXT PRIMARY KEY,
         name TEXT NOT NULL,
@@ -41,14 +53,12 @@ export async function ensureDb() {
         image TEXT,
         banner TEXT,
         owner TEXT NOT NULL,
-        created_at BIGINT NOT NULL DEFAULT (EXTRACT(EPOCH FROM NOW())::bigint),
-        updated_at BIGINT NOT NULL DEFAULT (EXTRACT(EPOCH FROM NOW())::bigint)
+        created_at INTEGER NOT NULL DEFAULT (unixepoch()),
+        updated_at INTEGER NOT NULL DEFAULT (unixepoch())
       )
-    `;
+    `);
   } catch (err) {
     initialized = false;
     throw err;
   }
 }
-
-export const sql = pgSql;

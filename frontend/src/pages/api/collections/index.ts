@@ -1,19 +1,21 @@
 import type { APIRoute } from "astro";
-import { sql, ensureDb } from "../../../lib/db";
+import { getDb, ensureDb } from "../../../lib/db";
 
 export const GET: APIRoute = async ({ url }) => {
   await ensureDb();
+  const db = getDb();
+
   const page = Math.max(1, parseInt(url.searchParams.get("page") || "1"));
   const limit = Math.min(100, Math.max(1, parseInt(url.searchParams.get("limit") || "24")));
   const offset = (page - 1) * limit;
 
-  const countResult = await sql.query("SELECT COUNT(*)::int as total FROM collections");
-  const total = countResult.rows[0].total;
+  const countResult = await db.execute("SELECT COUNT(*) as total FROM collections");
+  const total = Number(countResult.rows[0].total);
 
-  const dataResult = await sql.query(
-    "SELECT * FROM collections ORDER BY created_at DESC LIMIT $1 OFFSET $2",
-    [limit, offset]
-  );
+  const dataResult = await db.execute({
+    sql: "SELECT * FROM collections ORDER BY created_at DESC LIMIT ? OFFSET ?",
+    args: [limit, offset],
+  });
 
   return new Response(
     JSON.stringify({
@@ -29,14 +31,16 @@ export const GET: APIRoute = async ({ url }) => {
 
 export const POST: APIRoute = async ({ request }) => {
   await ensureDb();
+  const db = getDb();
+
   try {
     const body = await request.json();
     const { address, name, description, image, banner, owner } = body;
 
-    const existing = await sql.query(
-      "SELECT address FROM collections WHERE LOWER(address) = LOWER($1)",
-      [address]
-    );
+    const existing = await db.execute({
+      sql: "SELECT address FROM collections WHERE LOWER(address) = LOWER(?)",
+      args: [address],
+    });
 
     if (existing.rows.length > 0) {
       return new Response(
@@ -45,13 +49,16 @@ export const POST: APIRoute = async ({ request }) => {
       );
     }
 
-    await sql.query(
-      `INSERT INTO collections (address, name, description, image, banner, owner)
-       VALUES ($1, $2, $3, $4, $5, $6)`,
-      [address, name, description || null, image || null, banner || null, owner]
-    );
+    await db.execute({
+      sql: `INSERT INTO collections (address, name, description, image, banner, owner)
+            VALUES (?, ?, ?, ?, ?, ?)`,
+      args: [address, name, description || null, image || null, banner || null, owner],
+    });
 
-    const result = await sql.query("SELECT * FROM collections WHERE address = $1", [address]);
+    const result = await db.execute({
+      sql: "SELECT * FROM collections WHERE address = ?",
+      args: [address],
+    });
 
     return new Response(
       JSON.stringify(result.rows[0]),
