@@ -2,10 +2,11 @@ import { useState } from "react";
 import { useAccount, useWriteContract, useWaitForTransactionReceipt } from "wagmi";
 import { parseEther } from "viem";
 import { api } from "../lib/api";
+import { Providers } from "./Providers";
 
 const MARKETPLACE_ADDRESS = "0x0000000000000000000000000000000000000000";
 
-export function ListingForm() {
+function ListingFormInner() {
   const { address, isConnected } = useAccount();
   const [form, setForm] = useState({
     nftContract: "",
@@ -271,5 +272,13 @@ export function ListingForm() {
         }
       `}</style>
     </form>
+  );
+}
+
+export function ListingForm() {
+  return (
+    <Providers>
+      <ListingFormInner />
+    </Providers>
   );
 }

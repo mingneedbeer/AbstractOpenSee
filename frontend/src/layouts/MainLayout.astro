@@ -1,5 +1,4 @@
 ---
-import { Providers } from "../components/Providers";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 import "../styles/global.css";
@@ -14,12 +13,10 @@ import "../styles/global.css";
     <title>OpenSee - NFT Marketplace</title>
   </head>
   <body>
-    <Providers>
-      <Header client:load />
-      <main class="container">
-        <slot />
-      </main>
-      <Footer />
-    </Providers>
+    <Header client:load />
+    <main class="container">
+      <slot />
+    </main>
+    <Footer />
   </body>
 </html>

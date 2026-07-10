@@ -3,6 +3,7 @@ import { useAccount, useReadContract, useWriteContract, useWaitForTransactionRec
 import { formatEther, parseEther } from "viem";
 import { api } from "../lib/api";
 import type { NFT } from "../lib/types";
+import { Providers } from "./Providers";
 
 const MARKETPLACE_ADDRESS = "0x0000000000000000000000000000000000000000";
 
@@ -40,7 +41,7 @@ interface NFTDetailProps {
   nft: NFT;
 }
 
-export function NFTDetail({ nft }: NFTDetailProps) {
+function NFTDetailInner({ nft }: NFTDetailProps) {
   const { address, isConnected } = useAccount();
   const { writeContract, isPending } = useWriteContract();
   const [txHash, setTxHash] = useState<`0x${string}` | undefined>();
@@ -228,5 +229,13 @@ export function NFTDetail({ nft }: NFTDetailProps) {
         }
       `}</style>
     </div>
+  );
+}
+
+export function NFTDetail(props: NFTDetailProps) {
+  return (
+    <Providers>
+      <NFTDetailInner {...props} />
+    </Providers>
   );
 }

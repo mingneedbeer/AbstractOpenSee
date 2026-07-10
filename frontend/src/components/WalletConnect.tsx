@@ -1,11 +1,12 @@
 import { useAccount, useConnect, useDisconnect, useBalance } from "wagmi";
 import { useCallback, useState } from "react";
+import { Providers } from "./Providers";
 
 function truncateAddress(address: string) {
   return `${address.slice(0, 6)}...${address.slice(-4)}`;
 }
 
-export function WalletConnect() {
+function WalletConnectInner() {
   const { address, isConnected } = useAccount();
   const { connect, connectors, isPending } = useConnect();
   const { disconnect } = useDisconnect();
@@ -89,5 +90,13 @@ export function WalletConnect() {
     >
       {isPending ? "Connecting..." : "Connect Wallet"}
     </button>
+  );
+}
+
+export function WalletConnect() {
+  return (
+    <Providers>
+      <WalletConnectInner />
+    </Providers>
   );
 }
