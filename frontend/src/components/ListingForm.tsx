@@ -4,7 +4,7 @@ import { parseEther } from "viem";
 import { api } from "../lib/api";
 import { Providers } from "./Providers";
 
-const MARKETPLACE_ADDRESS = "0x0000000000000000000000000000000000000000";
+const MARKETPLACE_ADDRESS = "0xb164fEa4f95006ec63731E3Bd6CccCa7E5a6838d";
 
 function ListingFormInner() {
   const { address, isConnected } = useAccount();

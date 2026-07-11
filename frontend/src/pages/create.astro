@@ -1,17 +1,31 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
+import { MintKitty } from "../components/MintKitty";
 import { ListingForm } from "../components/ListingForm";
 ---
 
 <MainLayout>
   <section class="section">
     <div style="text-align: center; margin-bottom: 48px">
-      <h1 class="section-title">List an NFT</h1>
+      <h1 class="section-title">Create & List</h1>
       <p class="page-subtitle">
-        Connect your wallet and list your NFT for sale on the marketplace
+        Mint a new CryptoKitty or list an existing NFT on the marketplace
       </p>
     </div>
-    <ListingForm client:load />
+
+    <div class="create-grid">
+      <div class="create-column">
+        <h2 class="create-column-title">Step 1: Mint</h2>
+        <MintKitty client:load />
+      </div>
+      <div class="create-divider">
+        <span>or</span>
+      </div>
+      <div class="create-column">
+        <h2 class="create-column-title">Step 2: List</h2>
+        <ListingForm client:load />
+      </div>
+    </div>
   </section>
 </MainLayout>
 
@@ -20,5 +34,40 @@ import { ListingForm } from "../components/ListingForm";
     font-size: 16px;
     color: var(--color-text-secondary);
     margin-top: -16px;
+  }
+  .create-grid {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 40px;
+    align-items: start;
+  }
+  .create-column-title {
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 24px;
+  }
+  .create-divider {
+    display: flex;
+    align-items: center;
+    padding-top: 60px;
+  }
+  .create-divider span {
+    color: var(--color-text-secondary);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  @media (max-width: 900px) {
+    .create-grid {
+      grid-template-columns: 1fr;
+    }
+    .create-divider {
+      padding-top: 0;
+      justify-content: center;
+    }
   }
 </style>
